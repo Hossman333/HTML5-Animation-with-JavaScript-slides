@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>HTML5 Canvas Animation with Javascript</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>HTML5 Canvas</h1>
+					<h3>Animation with Javascript</h3>
+					<p>
+						<small>Josh Robertson</a> / <a href="http://twitter.com/hossman333">@hossman333</a></small>
+					</p>
+					<aside class="notes">
+						<p>Fullscreen: Command + Shift + F</p>
+						<p>Ask them how many have used canvas and actually gotten into it.</p>
+					</aside>
+				</section>
+
+				<section>
+				<section>
+					<br><br>
+					<h2>Josh Robertson</h2>
+					<ul>
+						<li>Domo</li>
+						<br>
+						<li>Open Source Enthusiast</li>
+						<br>
+						<li><a href="http://127.0.0.1/canvas/snowflake/">Snowflake</a></li>
+						<br>
+						<li>Codepen</li>
+					</ul>
+
+					<aside class="notes">
+						Snowflake was 1st canvas experience/experiment.<br>
+						Codepen is what I have been using to save my canvas experiments.<br>
+						<li>Keeps them in one spot.</li>
+						<li>I can share it.</li>
+						<li>Gives back data(view count, hearts, forks)</li>
+						<li>AND OF COURSE, I'm not trying to sell you guys on codepen, but thats just what I use.</li>
+					</aside>
+				</section>
+
+				<section>
+					<br><br><br>
+					<img src="lib/images/codpenjosh.png">
+				</section>
+				</section>
+
+				<section>
+					<br><br>
+					<h2>Topics</h2>
+					<ul>
+						<br>
+						<li>Briefly talk about the Drawing API</li>
+						<br>
+						<li>Basic Trigonometry for animation</li>
+						<br>
+						<li>Basic motion (Velocity & Acceleration)</li>
+					</ul>
+					<aside class="notes">
+						<p>Ask about their knowledge.</p>
+					</aside>
+				</section>
+
+				<section>
+					<br><br>
+					<h2>What is canvas?</h2>
+					<ul>
+						<br>
+						<li>Graphics with javascript</li>
+						<br>
+						<li>Drawing pad controlled with js</li>
+						<br>
+						<li>The API provides the drawing functionality.</li>
+					</ul>
+					<aside class="notes">
+						<p>HTML5 Canvas is an easy & powerful way to draw graphics using js</p>
+						<p>Canvas can use "context" which you can have js issue it commands to draw anything you want.</p>
+					</aside>
+				</section>
+
+				<section>
+					<br><br><br>
+					<h2>Forewarning</h2>
+					<p>Lots of demos.</p>
+					<img src="lib/images/excited.gif">
+				</section>
+
+				<section>
+					<br><br><br>
+					<h2>Drawing API</h2>
+					<ul>
+						<li>strokeStyle</li>
+						<li>fillStyle</li>
+						<li>lineWidth</li>
+						<li>beginPath()</li>
+						<li>closePath()</li>
+						<li>stroke()</li>
+						<li>lineTo(x, y)</li>
+						<li>moveTo(x, y)</li>
+						<li>arc(x, y, radius, startAngle, endAngle [, anticlockwise])</li>
+						<li>clearRect(x, y, width, height)</li>
+						<li>fillRect(x, y, width, height)</li>
+						<li>save()</li>
+						<li>restore()</li>
+					</ul>
+					<aside class="notes">
+						<p>Don't be afraid of this block of text :P</p>
+						<p>canvas api = lets you draw lines, curves, fills, etc...</p>
+						<p>These are the main ones that I will be showing you and discussing.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Tapping into the API</h2>
+				<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+				</code></pre>
+				<aside class="notes">
+					<p>Lets you access the API.</p>
+					<p>Pretty self explanatory.</p>
+				</aside>
+				</section>
+
+				<section>
+					<h2>Clearing the Canvas</h2>
+					<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+					</code></pre>					
+					<aside class="notes">
+						<p>Clears canvas</p>
+						<p>Clear, draw, clear, draw, clear, draw</p>
+						<p>Like stop motion</p>
+						<p>Don’t want pixels left over from previous frames</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Trigonometry</h2>
+					<ul>
+						<li>Math != Fear</li>
+						<li>Math.sin</li>
+						<li>Math.cos</li>
+						<aside class="notes">
+							<p>"I'm not good with numbers" You hardly deal with numbers</p>
+							<p>Visualizing shapes and relationships. You deal with positions, distances, and angles, and you never see the actual numbers.</p>
+							<p>90% of the trig you need is Math.sin and Math.cos</p>
+							<p>Now you see why I say Basic Trig for animation!!</p>
+						</aside>
+					</ul>
+				</section>
+
+				<section>
+					<br><br><br>
+					<h2>Radian and degrees</h2>
+					<img width="707px" height="544px" src="lib/images/radian-chart.png">
+					<aside class="notes">
+						<p>Computers like radians more when it comes to angles.</p>
+						<p>1 radian may seem like a weird number but it works because PI = 3.1416 means that 2 PI = 360 degrees(AKA a full circle)</p>
+						<p>2 PI = 6.2832 radians</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Radians to Degrees</h2>
+					<p>
+						radians = degrees * Math.PI / 180
+					</p>
+					<p>
+						degrees = radians * 180 / Math.PI
+					</p>
+				</section>
+
+        <section>
+				<section>
+					<br><br><br>
+					<h2>Half Circle with Radians</h2>
+					<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/half-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/gyHJj">Live Example</a>
+					<aside class="notes">
+						<p>first we tap into the api and then we do this</p>
+					</aside>
+					</section>
+
+					<section>
+					<br><br><br>
+					<h2>Full Circle with Radians</h2>
+					<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/full-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/hcaBt">Live Example</a>
+					</section>
+
+					<section>
+					<br><br><br>
+					<h2>1/4 Circle with Radians</h2>
+					<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI / 2);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/quarter-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/CopmG">Live Example</a>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<br><br><br>
+						<h2>Half Circle with Degrees</h2>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+var degrees = 180;
+var radians = degrees * Math.PI / 180;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, radians);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/half-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/yBFzI">Live Example</a>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Full Circle with Degrees</h2>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+var degrees = 360;
+var radians = degrees * Math.PI / 180;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, radians);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/full-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/EcwDm">Live Example</a>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>1/4 Circle with Degrees</h2>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var canvas = document.getElementById('example');
+var ctx = canvas.getContext('2d');
+var radius = 50;
+var degrees = 90;
+var radians = degrees * Math.PI / 180;
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, radians);
+ctx.stroke();
+					</code></pre>
+					<img src="lib/images/quarter-circle.png"><br>
+					<a href="http://codepen.io/hossman/pen/DpJHs">Live Example</a>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<br><br><br>
+						<h2>Classic Coordinate System</h2>
+						<img src="lib/images/classic-cs.png">
+						<aside class="notes">
+							<p>This is what I/we have been using for years. Been using it since elementary school.</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Graphics Coordinate System</h2>
+						<img src="lib/images/canvas-cs.png">
+						<aside class="notes">
+							<p>But instead I/we get this messed up coordinate system.</p>
+							<p>I got pretty confused with this since I hop back from school to coding and am in math classes that are graphing the other way.</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<br><br><br>
+						<h2>Classic Angle System</h2>
+						<img src="lib/images/classic-ag.png">
+						<aside class="notes">
+							<p>Once again canvas is backwards from the classic angle system.</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Canvas Angle System</h2>
+						<img src="lib/images/canvas-ag.png">
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<br><br><br>
+						<h2>Sine Waves</h2>
+						<img src="lib/images/sine-plot.gif">
+						<img src="lib/images/sine-plot-degrees.png">
+						<aside class="notes">
+							<p>This is how a sine function behaves. Depending on the values you feed into it.</p>
+							<p>Point out radians and degrees on sine graph.</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Sine Waves part 2! :)</h2>
+						<img src="lib/images/sine-wave.png"><br>
+						<a href="http://codepen.io/hossman/pen/hxEet">Live Example</a>
+					</section>
+
+					<section>
+						<h2>Animate with Sine Waves!</h2>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+						</code></pre>
+					</section>
+
+					<section>
+						<br><br><br><br>
+						<h2>Animate with Sine Waves part 2!</h2>
+						<ul>
+							<br>
+							<li>RequestAnimationFrame (of course)</li>
+							<br>
+							<li>Create a circle (ball)</li>
+							<br>
+							<li>(x, y)</li>
+							<br>
+							<li>Loop it! (for loop)</li>
+							<br>
+							<li>Random size? Sure!</li>
+						</ul>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Sine Waves in action</h2>
+						<img src="lib/images/sine-waves-action.png"><br>
+						<a href="http://codepen.io/hossman/pen/pFtHc">Live Example</a>
+					</section>
+				</section>
+
+				<section>
+					<h2>Basic Motion</h2>
+					<h4>Velocity?</h4>
+					<h4>Acceleration?</h4>
+				</section>
+
+				<section>
+					<section>
+						<br><br><br>
+						<h2>What is Velocity?</h2>
+						<ul>
+							<br>
+							<li>Velocity = Speed and <strong>Direction</strong></li>
+							<br>
+							<li><strong>V</strong>elocity on <strong>x</strong> = horizontal movement</li>
+							<br>
+							<li><strong>V</strong>elocity on <strong>y</strong> = vertical movement</li>
+						</ul>
+						<aside class="notes">
+							<p>Velocity in a basic term is something that moves.</p>
+							<p>Many people think the term velocity is speed.(thats part of it, but not all of it)</p>
+							<p>DIRECTION</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>vx & vy</h2>
+						<img src="lib/images/vx-merrick.png">
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Velocity on x axis</h2>
+						<img src="lib/images/vx.png"><br>
+						<a href="http://codepen.io/hossman/pen/hiJtH">Live Example</a>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Velocity on both axis</h2>
+						<img src="lib/images/vxy.png"><br>
+						<a href="http://codepen.io/hossman/pen/JdiAD">Live Example</a>
+						<aside class="notes">
+							<p>We have kind of cheated with the definition of velocity...</p>
+							<p>We have 2 different speeds & 2 different directions</p>
+							<p>What if you have a value for speed and an angle for direction?</p>
+							<p>Say you want to move at an angle of 45 degrees and a speed of 1px per frame</p>
+							<p>There isnt a vx & vy or anything even similar to that definition</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Angular Velocity</h2>
+						<br>
+						<img src="lib/images/right-tri.png">
+						<aside class="notes">
+							<p>***Back up notes just in case you went ahead of your slide.***</p>
+							<p>We have kind of cheated with the definition of velocity...</p>
+							<p>We have 2 different speeds & 2 different directions</p>
+							<p>What if you have a value for speed and an angle for direction?</p>
+							<p>Say you want to move at an angle of 45 degrees and a speed of 1px per frame</p>
+							<p>There isnt a vx & vy or anything even similar to that definition</p>
+						</aside>
+					</section>
+
+					<section>
+						<h2>Back to math</h2>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var radians = angle * Math.PI / 180;
+var vx = Math.cos(radians) * speed;
+var vy = Math.sin(radians) * speed;
+						</code></pre>
+					</section>
+
+					<section>
+						<br><br><br>
+						<img src="lib/images/ang-velocity.png"><br>
+						<a href="http://codepen.io/hossman/pen/txeCc">Live Example</a>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>What is acceleration?</h2>
+						<aside class="notes">
+							<p>its common to think of Acceleration as speed up and slowing down.</p>
+							<p>Acceleration is described as a value and a direction.</p>
+							<p>BUT velocity changes the position of an object, acceleration changes its velocity.</p>
+							<p>Acceleration is a value that you add to a velocity property.</p>
+						</aside>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Acceleration on x axis</h2>
+						<br>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var x = 0;							
+var vx = 0;
+var ax = 0.04;
+requestAnimationFrame(function draw() {
+
+	vx += ax;
+	x += vx;
+  requestAnimationFrame(draw);
+});
+						</code></pre>
+						<a href="http://codepen.io/hossman/pen/otrAm">Live Example</a>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Acceleration on y axis</h2>
+						<br>
+						<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+var y = 0;							
+var vy = 0;
+var ay = 0.04;
+requestAnimationFrame(function draw() {
+
+	vy += ay;
+	y += vy;
+  requestAnimationFrame(draw);
+});
+						</code></pre>
+						<a href="http://codepen.io/hossman/pen/hpHFE">Live Example</a>
+					</section>
+
+					<section>
+						<br><br><br>
+						<h2>Acceleration + Velocity on both axis</h2>
+						<img src="lib/images/velaccboth.png"><br>
+						<a href="http://codepen.io/hossman/pen/vlFgc">Live Example</a>
+					</section>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<ul>
+						<li><a href="https://github.com/hossman333/">Github</a> - Hossman333</li>
+						<li><a href="https://twitter.com/Hossman333">Twitter</a> - @hossman333</li>
+						<li><a href="http://www.codepen.io/hossman">Codepen</a> - hossman</li>
+						<li><a href="mailto:hossman333@gmail.com">hossman333@gmail.com</a></li>
+						<li><a href="http://www.amazon.com/Foundation-HTML5-Animation-JavaScript-Lamberta/dp/1430236655">Foundation HTML5 Animation with JavaScript</a></li>
+					</ul>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
