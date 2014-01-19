@@ -1,1 +1,1 @@
-Slides from my Utah JS talk on HTML5 Animation with Javascript. 
+Slides from my MWJS 2014 talk on HTML5 Animation with Javascript. 
