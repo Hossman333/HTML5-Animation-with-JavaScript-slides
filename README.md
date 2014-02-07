@@ -1,1 +1,1 @@
-Slides from my MWJS 2014 talk on HTML5 Animation with Javascript. 
+Slides for my MWJS 2014 talk on HTML5 Animation with Javascript. 
